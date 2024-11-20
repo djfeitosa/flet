@@ -1,3 +1,4 @@
+from turtle import onclick
 from fastapi import background
 import flet as ft
 
@@ -7,6 +8,12 @@ def main(page: ft.Page):
     page.scroll = "auto"
     page.theme_mode = "light"
     page.horizontal_alignment = "center"
+
+    def show_snack_bar(e):
+        snack_bar = ft.SnackBar(content=ft.Text("Mensagem enviada"))
+        page.overlay.append(snack_bar)
+        snack_bar.open = True
+        page.update()
 
     # Definição das cores principais
     primary_color = ft.colors.INDIGO_400
@@ -80,21 +87,57 @@ def main(page: ft.Page):
                             padding=ft.padding.all(10),
                             bgcolor=accent_color,
                             border_radius=ft.border_radius.all(10),
-                            width=200,
-                            height=150,
                         )
                         for project in projects_list
                     ],
                     run_spacing=10,
                     spacing=10,
                 ),
+                ft.ElevatedButton(
+                    "Veja mais projetos",
+                    color=background_color,
+                    bgcolor=primary_color,
+                ),
             ],
             spacing=10,
         ),
-        padding=ft.padding.symmetric(horizontal=20, vertical=40),
+        padding=ft.padding.all(40),
     )
 
-    contact_session = ft.Container()
+    contact_session = ft.Container(
+        content=ft.Column(
+            [
+                ft.Text(
+                    "Entre em contato",
+                    size=38,
+                    weight="bold",
+                    color=primary_color,
+                ),
+                ft.Text(
+                    "Vamos conversar sobre novas oportunidades e colaborações, por favor não exite em nos chamar!",
+                    size=20,
+                    weight="bold",
+                    color=ft.colors.BLACK54,
+                ),
+                ft.TextField(label="Nome"),
+                ft.TextField(label="E-mail"),
+                ft.TextField(label="Mensagem", multiline=True),
+                ft.ElevatedButton(
+                    "Enviar mensagem",
+                    # on_click=show_snack_bar,
+                    on_click=show_snack_bar,
+                    color=ft.colors.WHITE,
+                    bgcolor=primary_color,
+                ),
+            ],
+            alignment="center",
+            spacing=10,
+        ),
+        alignment=ft.alignment.center,
+        padding=ft.padding.all(40),
+        border_radius=12,
+        bgcolor=accent_color,
+    )
 
     footer = ft.Row(
         [
@@ -117,6 +160,7 @@ def main(page: ft.Page):
                     contact_session,
                     ft.Divider(),
                     footer,
+                    ft.Container(height=30),
                 ]
             ),
             width=800,
