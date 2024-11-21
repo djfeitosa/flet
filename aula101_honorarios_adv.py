@@ -1,3 +1,4 @@
+from ctypes import alignment
 import flet as ft
 from flet import (
     Text,
@@ -5,9 +6,12 @@ from flet import (
     TextField,
     FilledButton,
     Row,
-    AlertDialog,
-    colors,
+    Divider,
+    Column,
+    Row,
     Container,
+    padding,
+    border_radius,
 )
 
 
@@ -39,24 +43,40 @@ def main(page: Page):
         weight="bold",
     )
 
-    fields_session = Container()
+    fields_session = Container(
+        content=Column(
+            [
+                Row(controls=[titulo]),
+                Row(controls=[text_fields["contratante"]]),
+                Row(
+                    controls=[
+                        text_fields["medida_judicial"],
+                        text_fields["outra_parte"],
+                    ]
+                ),
+                Row(controls=[text_fields["prolabore"], text_fields["exito"]]),
+                Row(
+                    controls=[text_fields["foro"], text_fields["data_contrato"]]
+                ),
+            ],
+            alignment="center",
+            spacing=10,
+        ),
+        alignment=ft.alignment.center,
+        padding=padding.all(10),
+        border_radius=border_radius.all(12),
+    )
 
     btn_gerar = FilledButton(text="Gerar Contrato", on_click=gera_contrato)
 
     page.add(
-        contents=[
-            Row(controls=[titulo]),
-            Row(controls=[text_fields["contratante"]]),
-            Row(
-                controls=[
-                    text_fields["medida_judicial"],
-                    text_fields["outra_parte"],
-                ]
+        Container(
+            content=Column(
+                [fields_session, Divider(), Row(controls=[btn_gerar])]
             ),
-            Row(controls=[text_fields["prolabore"], text_fields["exito"]]),
-            Row(controls=[text_fields["foro"], text_fields["data_contrato"]]),
-            Row(controls=[btn_gerar]),
-        ]
+            alignment=ft.alignment.center,
+            width=800,
+        )
     )
 
 
