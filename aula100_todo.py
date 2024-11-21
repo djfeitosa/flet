@@ -190,7 +190,7 @@ class TodoApp(UserControl):
             )
             if not task.completed:
                 count += 1
-        self.items_left.value = f"{count} tarefa(s) adicionada(s)"
+        self.items_left.value = f"{count} tarefa(s) pendente(s)"
         super().update()
 
 
